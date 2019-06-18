@@ -15,15 +15,12 @@ services:
     image: neomediatech/pyzor-server:latest
     environment:
       TZ: Europe/Rome
-      VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-neo/db}"
-      HOSTNAME: "${HOSTNAME:-pyzor}"
-      LISTEN: "${LISTEN:-24441}"
       WAITFOR: "redis:redis"
-    hostname: ${HOSTNAME}
+    hostname: pyzor
     <<: *default-opts    
     ports:
       - target: 24441
-        published: ${LISTEN}
+        published: 24441
         protocol: tcp
         mode: host
     volumes:
