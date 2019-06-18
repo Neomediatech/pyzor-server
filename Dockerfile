@@ -4,12 +4,10 @@ ENV VERSION=1.0.0
 ENV SERVICE=pyzor-server
 ENV OS=ubuntu
 
-ARG EXIM_DIR=/etc/exim4
-
 LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.version=$VERSION \
       org.label-schema.vcs-type=Git \
-      org.label-schema.vcs-url=https://github.com/Neomediatech/$SERVICE-$OS \
+      org.label-schema.vcs-url=https://github.com/Neomediatech/$SERVICE \
       org.label-schema.maintainer=Neomediatech
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -28,12 +26,6 @@ COPY bin/tini /usr/local/sbin
 COPY conf/* /root/.pyzor/
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh /usr/local/sbin/tini
-
-# only for testing
-RUN apt-get update && \
-    apt-get --no-install-recommends install -y redis && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 24441
 
