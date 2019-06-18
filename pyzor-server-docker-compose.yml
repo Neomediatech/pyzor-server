@@ -30,8 +30,8 @@ services:
     image: redis:alpine
     environment:
       TZ: Europe/Rome
-      VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-neo/db}"
-      HOSTNAME: "${HOSTNAME:-redis-antispam-neo}"
+      VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-pyzor/db}"
+      HOSTNAME: "${HOSTNAME:-redis}"
       LISTEN: "${LISTEN:-6382}"
     hostname: ${HOSTNAME}
     command: ["redis-server", "--appendonly", "yes", "--bind", "0.0.0.0", "--protected-mode", "no", "--always-show-logo", "no", "--appendfsync", "no"]
