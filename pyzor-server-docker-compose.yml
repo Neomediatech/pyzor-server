@@ -11,13 +11,31 @@ x-default-opts:
       window: 20s
 
 services:
+  pyzor:
+    image: neomediatech/pyzor-server:latest
+    environment:
+      TZ: Europe/Rome
+      VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-neo/db}"
+      HOSTNAME: "${HOSTNAME:-pyzor}"
+      LISTEN: "${LISTEN:-24441}"
+      WAITFOR: "redis:redis"
+    hostname: ${HOSTNAME}
+    <<: *default-opts    
+    ports:
+      - target: 24441
+        published: ${LISTEN}
+        protocol: tcp
+        mode: host
+    volumes:
+      - logs:/data/logs
+
   redis:
     image: redis:alpine
     environment:
       TZ: Europe/Rome
       VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-neo/db}"
       HOSTNAME: "${HOSTNAME:-redis-antispam-neo}"
-      LISTEN: "${LISTEN:-6379}"
+      LISTEN: "${LISTEN:-6382}"
     hostname: ${HOSTNAME}
     command: ["redis-server", "--appendonly", "yes", "--bind", "0.0.0.0", "--protected-mode", "no", "--always-show-logo", "no", "--appendfsync", "no"]
     <<: *default-opts    
@@ -41,3 +59,9 @@ volumes:
       type: none
       o: bind
       device: ${VOL_PATH}
+  logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/data/logs/pyzor
