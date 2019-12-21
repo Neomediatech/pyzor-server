@@ -19,14 +19,13 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends
     pip install wheel && \
     pip install pyzor redis
 
-COPY bin/tini /usr/local/sbin
+COPY bin/* /
 COPY conf/* /root/.pyzor/
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh /usr/local/sbin/tini
+RUN chmod +x /entrypoint.sh /tini
 
 EXPOSE 24441
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=20 CMD pyzor ping
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["tini","--","pyzord","--homedir=/root/.pyzor/"]
+CMD ["/tini","--","pyzord","--homedir=/root/.pyzor/"]
