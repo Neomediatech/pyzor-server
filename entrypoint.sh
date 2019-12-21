@@ -53,5 +53,5 @@ fi
 
 sed -i "s/REDIS_SERVER/$REDIS_SERVER/g" /root/.pyzor/config
 
-exec tail -f $LOGS_DIR/* &
+exec tail -F $LOGS_DIR/* &
 exec "$@"
