@@ -1,5 +1,7 @@
 # use to create a swarm template in Portainer
-# don't forget to declare the ENV var REDIS_SERVER to the redis container name
+# don't forget to declare the ENV var REDIS_SERVER to the redis container name and
+# STACK_BASE_PATH=folder_for_stack ; mkdir -p ${STACK_BASE_PATH}/data ${STACK_BASE_PATH}/logs
+
 version: '3.7'
 
 x-default-opts: 
@@ -23,7 +25,6 @@ services:
   pyzor:
     image: neomediatech/pyzor-server:latest
     environment:
-      TZ: Europe/Rome
       WAITFOR: "redis:redis"
     hostname: pyzor
     <<: *default-opts    
@@ -40,11 +41,7 @@ services:
 
   redis:
     image: redis:alpine
-    environment:
-      TZ: Europe/Rome
-      VOL_PATH: "${VOL_PATH:-/srv/data/docker/containers/redis-pyzor/db}"
-      HOSTNAME: "${HOSTNAME:-redis}"
-    hostname: ${HOSTNAME}
+    hostname: redis
     command: ["redis-server", "--appendonly", "yes", "--bind", "0.0.0.0", "--protected-mode", "no", "--always-show-logo", "no", "--appendfsync", "no"]
     <<: *default-opts    
     volumes:
@@ -64,10 +61,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${VOL_PATH}
+      device: ${STACK_BASE_PATH}/data
   logs:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /srv/data/logs/pyzor
+      device: ${STACK_BASE_PATH}/logs
