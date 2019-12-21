@@ -31,7 +31,7 @@ services:
     ports:
       - target: 24441
         published: 24441
-        protocol: tcp
+        protocol: udp
         mode: host
     volumes:
       - *v-tz
