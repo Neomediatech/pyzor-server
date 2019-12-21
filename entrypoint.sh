@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REDIS_SERVER=${REDIS_SERVER:-127.0.0.1}
+REDIS_SERVER=${REDIS_SERVER:-redis}
 LOGS_DIR=${LOGS_DIR:-/data/logs}
 if [ ! -d $LOGS_DIR ]; then
     mkdir -p $LOGS_DIR
