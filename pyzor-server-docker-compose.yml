@@ -1,4 +1,5 @@
 # use to create a swarm template in Portainer
+# don't forget to declare the ENV var REDIS_SERVER to the redis container name
 version: '3.7'
 
 x-default-opts: 
@@ -9,6 +10,14 @@ x-default-opts:
       delay: 5s
       max_attempts: 3
       window: 20s
+
+x-vol-tz: &v-tz /etc/timezone:/etc/timezone:ro
+x-vol-ltime: &v-ltime /etc/localtime:/etc/localtime:ro
+x-vol-lgen: &v-lgen /etc/locale.gen:/etc/locale.gen:ro
+x-vols: &vols
+  - *v-tz
+  - *v-ltime
+  - *v-lgen
 
 services:
   pyzor:
@@ -24,6 +33,9 @@ services:
         protocol: tcp
         mode: host
     volumes:
+      - *v-tz
+      - *v-ltime
+      - *v-lgen
       - logs:/data/logs
 
   redis:
@@ -36,6 +48,9 @@ services:
     command: ["redis-server", "--appendonly", "yes", "--bind", "0.0.0.0", "--protected-mode", "no", "--always-show-logo", "no", "--appendfsync", "no"]
     <<: *default-opts    
     volumes:
+      - *v-tz
+      - *v-ltime
+      - *v-lgen
       - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
