@@ -1,8 +1,9 @@
 FROM ubuntu:18.04
 
-ENV VERSION=1.0.0
-ENV SERVICE=pyzor-server
-ENV OS=ubuntu
+ENV VERSION=1.0.0 \
+    SERVICE=pyzor-server \
+    OS=ubuntu \
+    DEBIAN_FRONTEND=noninteractive
 
 LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.version=$VERSION \
@@ -10,11 +11,7 @@ LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.vcs-url=https://github.com/Neomediatech/$SERVICE \
       org.label-schema.maintainer=Neomediatech
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Rome
-
-RUN echo $TZ > /etc/timezone && \
-    apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends install -y python-pip tzdata redis-tools && \
+RUN apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends install -y python-pip redis-tools && \
     apt-get -y autoremove --purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
