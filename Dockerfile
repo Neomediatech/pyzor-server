@@ -21,8 +21,8 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends
 
 COPY bin/* /
 COPY conf/* /root/.pyzor/
-RUN chmod +x /entrypoint.sh /tini && \
-    mv /digest.py /usr/local/lib/python2.7/dist-packages/pyzor/digest.py
+RUN chmod +x /entrypoint.sh /tini 
+# RUN   mv /digest.py /usr/local/lib/python2.7/dist-packages/pyzor/digest.py
 
 EXPOSE 24441
 
