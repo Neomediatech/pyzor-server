@@ -1,4 +1,4 @@
-FROM neomediatech/ubuntu-base
+FROM neomediatech/ubuntu-base:20.04
 
 ENV VERSION=1.0.0 \
     SERVICE=pyzor-server \
@@ -11,7 +11,7 @@ LABEL maintainer="docker-dario@neomediatech.it" \
       org.label-schema.vcs-url=https://github.com/Neomediatech/$SERVICE \
       org.label-schema.maintainer=Neomediatech
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends install -y python-pip redis-tools && \
+RUN apt-get update && apt-get -y dist-upgrade && apt-get --no-install-recommends install -y python3-pip redis-tools && \
     apt-get -y autoremove --purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
